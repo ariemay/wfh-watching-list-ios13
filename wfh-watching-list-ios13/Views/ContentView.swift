@@ -35,46 +35,60 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationView {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    Text("Top Movie List")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 20) {
-                            ForEach(self.networkManager.topMovies) { res in
-                                VStack(alignment: .leading, spacing: 0) {
-                                    MovieList(data: res)
+        TabView {
+            NavigationView {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                        Text("Top Movie List")
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 20) {
+                                ForEach(self.networkManager.topMovies) { res in
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        MovieList(data: res)
+                                    }
                                 }
                             }
+                            .frame(height: 300)
                         }
-                        .frame(height: 300)
-                    }
-                    .onAppear {
-                        self.networkManager.loadTopMovies()
-                    }
-                    Text("Now Playing Movie")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 20) {
-                            ForEach(networkManager.nowPlayingMovies) {
-                                res in
-                                VStack {
-                                    MovieList(data: res)
-                                }
-                            }
-                        }
-                        .frame(height: 300)
                         .onAppear {
-                            self.networkManager.loadNowPlayingMovies()
+                            self.networkManager.loadTopMovies()
                         }
+                        Text("Now Playing Movie")
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 20) {
+                                ForEach(networkManager.nowPlayingMovies) {
+                                    res in
+                                    VStack {
+                                        MovieList(data: res)
+                                    }
+                                }
+                            }
+                            .frame(height: 300)
+                            .onAppear {
+                                self.networkManager.loadNowPlayingMovies()
+                            }
+                        }
+                        Spacer()
                     }
-                    Spacer()
                 }
                 .navigationBarTitle("WFH Watching List")
                 .padding()
+            }
+            .tabItem{
+                Image(systemName: "house")
+                Text("Home")
+            }
+            NavigationView {
+                Text("Test")
+                .navigationBarTitle("Favorite")
+            }
+            .tabItem{
+                Image(systemName: "tv")
+                Text("Favorite")
             }
         }
     }
