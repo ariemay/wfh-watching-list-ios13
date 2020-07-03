@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MovieDetails.swift
 //  wfh-watching-list-ios13
 //
 //  Created by Arie May Wibowo on 02/07/20.
@@ -8,14 +8,17 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MovieDetails: View {
+    
+    var data: Movie
+    
     var body: some View {
-        Text("Hello, World!")
+        Text(data.title)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct MovieDetails_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        MovieDetails(data: testData)
     }
 }
