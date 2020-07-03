@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import UserNotifications
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -32,6 +33,9 @@ struct ContentView: View {
             .font : UIFont(name:"Papyrus", size: 40)!]
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        
+        scheduleNotification()
+        
     }
     
     var body: some View {
@@ -91,6 +95,33 @@ struct ContentView: View {
                 Text("Favorite")
             }
         }
+    }
+    
+    func scheduleNotification() {
+        let center = UNUserNotificationCenter.current()
+        
+        center.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {(granted, error) in
+            if granted {
+                print("You have been granted")
+            } else {
+                print("Not granted")
+            }
+        })
+
+        let content = UNMutableNotificationContent()
+        content.title = "Have you watching a movie today?"
+        content.body = "Go get a movie!"
+        content.categoryIdentifier = "alarm"
+        content.userInfo = ["customData": "ariemay"]
+        content.sound = UNNotificationSound.default
+
+        var dateComponents = DateComponents()
+        dateComponents.hour = 10
+        dateComponents.minute = 30
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        center.add(request)
     }
     
 }
