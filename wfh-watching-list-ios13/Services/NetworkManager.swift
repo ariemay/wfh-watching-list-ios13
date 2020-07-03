@@ -37,7 +37,6 @@ class NetworkManager: ObservableObject {
             
             DispatchQueue.main.async {
                 self.nowPlayingMovies = movieRequest.results
-                print(self.nowPlayingMovies)
             }
         }.resume()
     }

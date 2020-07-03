@@ -36,21 +36,23 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
-                ScrollView(.vertical, showsIndicators: false) {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading) {
                     Text("Top Movie List")
                         .font(.subheadline)
                         .fontWeight(.bold)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 20) {
-                            ForEach(networkManager.topMovies) { res in
-                                VStack {
+                            ForEach(self.networkManager.topMovies) { res in
+                                VStack(alignment: .leading, spacing: 0) {
                                     MovieList(data: res)
                                 }
                             }
-                        }.onAppear {
-                            self.networkManager.loadTopMovies()
                         }
+                        .frame(height: 300)
+                    }
+                    .onAppear {
+                        self.networkManager.loadTopMovies()
                     }
                     Text("Now Playing Movie")
                         .font(.subheadline)
@@ -63,7 +65,9 @@ struct ContentView: View {
                                     MovieList(data: res)
                                 }
                             }
-                        }.onAppear {
+                        }
+                        .frame(height: 300)
+                        .onAppear {
                             self.networkManager.loadNowPlayingMovies()
                         }
                     }

@@ -35,8 +35,7 @@ struct ImageViewWidget: View {
         imageLoader = ImageLoader(urlString: url)
     }
     
-    func imageFromData(_ data:Data) -> UIImage {
-        UIImage(data: data) ?? UIImage()
+    func imageFromData(_ data:Data) -> UIImage {        return UIImage(data: data) ?? UIImage()
     }
 
     var body: some View {
